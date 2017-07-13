@@ -3,8 +3,8 @@
 from flask import Flask, url_for, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from flask.ext.bcrypt import Bcrypt
+from darts import app
 
-app = Flask(__name__)
 app.config.update(
     DEBUG=True,
     SQLALCHEMY_DATABASE_URI='sqlite:///test.db'
