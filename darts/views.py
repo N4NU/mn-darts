@@ -7,9 +7,10 @@ from darts import app
 
 app.config.update(
     DEBUG=True,
-    SQLALCHEMY_DATABASE_URI='sqlite:///local/AppData/test.db'
+    SQLALCHEMY_DATABASE_URI='sqlite:///test.db'
 )
 db = SQLAlchemy(app)
+db.create_all()
 bcrypt = Bcrypt(app)
 
 class User(db.Model):
