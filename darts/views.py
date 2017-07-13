@@ -11,7 +11,7 @@ app.config.update(
     SQLALCHEMY_DATABASE_URI='sqlite:///local/AppData/test.db'
 )
 db = SQLAlchemy(app)
-db.create_all()
+# db.create_all()
 bcrypt = Bcrypt(app)
 
 class User(db.Model):
