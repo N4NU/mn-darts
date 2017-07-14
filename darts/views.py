@@ -2,23 +2,9 @@
 
 import subprocess
 from flask import Flask, url_for, render_template, request, redirect, session
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from darts import app
-
-db = SQLAlchemy(app)
-
-class User(db.Model):
-    """ Create user table"""
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(100))
-
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
-
-db.create_all()
+from darts import app, db, User
 
 bcrypt = Bcrypt(app)
 
