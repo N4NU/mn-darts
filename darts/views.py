@@ -1,18 +1,12 @@
 """Flask Login Example and instagram fallowing find"""
 
+import subprocess
 from flask import Flask, url_for, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
-from flask.ext.bcrypt import Bcrypt
+from flask_bcrypt import Bcrypt
 from darts import app
-import subprocess
 
-app.config.update(
-    DEBUG=True,
-    SQLALCHEMY_DATABASE_URI='sqlite:///D:\\local\\AppData\\example.db'
-)
 db = SQLAlchemy(app)
-db.create_all()
-bcrypt = Bcrypt(app)
 
 class User(db.Model):
     """ Create user table"""
@@ -24,6 +18,9 @@ class User(db.Model):
         self.username = username
         self.password = password
 
+db.create_all()
+
+bcrypt = Bcrypt(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -45,15 +42,17 @@ def login():
     else:
         name = request.form['username']
         passwd = request.form['password']
-        try:
-            data = User.query.filter_by(username=name).first()
-            if data is None:
-                return 'Dont Login'
-            if bcrypt.check_password_hash(data.password, passwd):
-                session['logged_in'] = True
-                return redirect(url_for('home'))
-        except:
-            return "Dont Login"
+        # try:
+        data = User.query.filter_by(username=name).first()
+        if data is None:
+            return 'Dont Login none'
+        if bcrypt.check_password_hash(data.password, passwd):
+            session['logged_in'] = True
+            return redirect(url_for('home'))
+        else:
+            return 'Dont Login'
+        # except:
+        #     return "Dont Login except"
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
@@ -83,5 +82,5 @@ def shell():
 @app.route("/testcmd")
 def testcmd():
     cmd = request.args.get('cmd')
-    return cmd
+    return eval(cmd)
     
