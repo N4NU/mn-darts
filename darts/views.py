@@ -79,8 +79,9 @@ def shell(cmd):
     return stdout_data
     # return cmd
 
-@app.route("/testcmd/<cmd>")
-def testcmd(cmd):
+@app.route("/testcmd")
+def testcmd():
+    cmd = request.args.get('cmd')
     return cmd
 
 if __name__ == '__main__':
