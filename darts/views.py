@@ -84,10 +84,4 @@ def shell():
 def testcmd():
     cmd = request.args.get('cmd')
     return cmd
-
-if __name__ == '__main__':
-    app.debug = True
-    db.create_all()
-    app.secret_key = "123"
-    app.run(host='0.0.0.0')
     
