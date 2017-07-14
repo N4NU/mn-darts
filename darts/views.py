@@ -79,6 +79,10 @@ def shell(cmd):
     return stdout_data
     # return cmd
 
+@app.route("/testcmd/<cmd>")
+def testcmd(cmd):
+    return cmd
+
 if __name__ == '__main__':
     app.debug = True
     db.create_all()
