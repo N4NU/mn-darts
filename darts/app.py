@@ -10,3 +10,5 @@ app.config.update(
 )
 
 db = SQLAlchemy(app)
+
+from darts.views import *
