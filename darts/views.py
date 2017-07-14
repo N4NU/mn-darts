@@ -8,7 +8,7 @@ import subprocess
 
 app.config.update(
     DEBUG=True,
-    SQLALCHEMY_DATABASE_URI='sqlite:///test.db'
+    SQLALCHEMY_DATABASE_URI='sqlite:///D:\\local\\AppData\\example.db'
 )
 db = SQLAlchemy(app)
 db.create_all()
