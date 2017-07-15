@@ -1,5 +1,6 @@
-#!/usr/bin/env python
-from darts.app import db
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 class User(db.Model):
     """ Create user table"""
@@ -13,4 +14,10 @@ class User(db.Model):
 
 
 if __name__ == "__main__":
-    db.create_all()
+    from flask import Flask
+
+    app = Flask(__name__)
+    app.config.from_pyfile('app.config')
+
+    db.init_app(app)
+    db.create_all(app=app)
