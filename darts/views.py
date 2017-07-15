@@ -4,8 +4,8 @@ import subprocess
 from flask import Flask, url_for, render_template, request, redirect, session
 # from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from darts.app import app, db
-from darts.models import User
+from darts.app import app
+from darts.models import db, User
 
 bcrypt = Bcrypt(app)
 
