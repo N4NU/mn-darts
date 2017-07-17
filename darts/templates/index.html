@@ -2,22 +2,39 @@
 {% block content %}
 {% if session['logged_in'] %}
    
-	{% if data %}
-	<h3>{{data}}</h3>
-	{% else %}
+{% if data %}
+<h3>{{data}}</h3>
+{% else %}
 
-	<a href="/logout">Logout</a> <br> <br>
-	<form action="" method="POST">
-	  <input type="username" name="username" placeholder="Instagram Username">
-	  <input type="submit" value="Finds">
-	</form>
-	{% endif %}
+<a href="/logout">Logout</a> <br> <br>
+<form action="" method="POST">
+  <input type="username" name="username" placeholder="Instagram Username">
+  <input type="submit" value="Finds">
+</form>
+{% endif %}
 
 {% else %}
-<p>Not login!</p>
+<p>Ranking</p>
 
-<a href="/login">Login</a> 
-<a href="/register">Register</a>
+<table id="ranking" class="table table-striped">
+  <thead>
+    <tr>
+      <td width="10px"><b>Place</b>
+      </td>
+      <td><b>Team</b>
+      </td>
+      <td><b>Score</b>
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+{% if ranking_list %}
+{% for place, team_name, score in ranking_list %}
+  <tr><td>{{ place }}</td><td><a href="/user/{{ team_name | quote_plus }}">{{ team_name }}</a></td><td>{{ score }}</td></tr>
+{% endfor %}
+{% endif %}
+  </tbody>
+</table>
 
 {% endif %}
 {% endblock %}

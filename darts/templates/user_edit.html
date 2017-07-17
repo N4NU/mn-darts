@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+   
+{% if user_data %}
+<div class="col-lg-6 col-lg-offset-3">
+  <div class="well bs-component">
+    <form class="form-horizontal">
+      <fieldset>
+        <legend>登録情報変更</legend>
+        <div class="form-group">
+          <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+          <div class="col-lg-10">
+            <input class="form-control" id="inputEmail" placeholder="Email" type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+          <div class="col-lg-10">
+            <input class="form-control" id="inputPassword" placeholder="Password" type="password">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"> Checkbox
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="textArea" class="col-lg-2 control-label">Textarea</label>
+          <div class="col-lg-10">
+            <textarea class="form-control" rows="3" id="textArea"></textarea>
+            <span class="help-block">ヘルプテキストは長くすることで1行を超えて分割されるようになります。</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 control-label">Radios</label>
+          <div class="col-lg-10">
+            <div class="radio">
+              <label>
+                <input name="optionsRadios" id="optionsRadios1" value="option1" checked="" type="radio">
+                こっち
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input name="optionsRadios" id="optionsRadios2" value="option2" type="radio">
+                あっち
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="select" class="col-lg-2 control-label">Selects</label>
+          <div class="col-lg-10">
+            <select class="form-control" id="select">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+            <br>
+            <select multiple="" class="form-control">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-lg-10 col-lg-offset-2">
+            <button type="reset" class="btn btn-default">キャンセル</button>
+            <button type="submit" class="btn btn-primary">送信</button>
+          </div>
+        </div>
+      </fieldset>
+      <input type="hidden" name="nonce" value="ebb539ec90b82643baa5d09e26154e0a6e01873c8d39a20d13ed86ca826eb0bef0282b7e3ba21e1f0e639cecbaef119212107a599cb440f3d14df75f0a19c380">
+    </form>
+  </div>
+</div>
+
+{% else %}
+<div class="text-center">
+  <h1> Please login </h1>
+</div>
+
+{% endif %}
+{% endblock %}

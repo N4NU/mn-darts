@@ -1,11 +1,56 @@
 <html>
   <head>
-		<title>Flask Login Example</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flask Login Example</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
   </head>
   <body>
-    <div><a href="/">Flask Login Example</a></div>
-		
-    <hr>
-    {% block content %}{% endblock %}
+    <header>
+      <div class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="{{ url_for('home') }}" class="navbar-brand">ダーツ</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main" aria-expanded="true">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+
+          <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+              <li {% if request.path == url_for('home') %}class="active"{% endif %}><a href="{{ url_for('home') }}">Top</a></li>
+              <li {% if request.path == url_for('ranking') %}class="active"{% endif %}><a href="{{ url_for('ranking') }}">ランキング</a></li>
+              <li {% if request.path == url_for('bbs') %}class="active"{% endif %}><a href="{{ url_for('bbs') }}">掲示板</a></li>
+              <li {% if request.path == url_for('enquete') %}class="active"{% endif %}><a href="{{ url_for('enquete') }}">アンケート</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+{% if session['logged_in'] %}
+              <li><a href="{{ url_for('user', username=session['username']) }}">{{ session['username'] }}</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Settings <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="{{ url_for('user_edit') }}">登録情報</a></li>
+                  <li><a href="{{ url_for('logout') }}">ログアウト</a></li>
+                </ul>
+              </li>
+{% else %}
+              <li><a href="{{ url_for('register') }}">登録</a></li>
+              <p class="navbar-text">|</p>
+              <li><a href="{{ url_for('login') }}">ログイン</a></li>
+{% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
   </body>
 </html>
