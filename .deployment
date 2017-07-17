@@ -1,2 +1,2 @@
 [config]
-command = powershell.exe -ExecutionPolicy RemoteSigned -command deploy.ps1
+command = powershell.exe -ExecutionPolicy RemoteSigned -command D:\home\site\repository\deploy.ps1
