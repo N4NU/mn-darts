@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="well bs-component">
+          <form action="{{ url_for('bbs_create_thread') }}" method="POST" class="form-horizontal">
+            <fieldset class="form-group">
+              <legend>スレッド新規作成</legend>
+              <div class="form-group">
+                <label for="title" class="col-lg-2 control-label">タイトル</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" id="title" name="title" placeholder="タイトル">
+                  <span class="help-block">最大100文字</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="description" class="col-lg-2 control-label">説明</label>
+                <div class="col-lg-10">
+                  <textarea class="form-control" rows="8" id="description" name="description"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                  <button type="reset" class="btn btn-default">キャンセル</button>
+                  <button type="submit" class="btn btn-primary">送信</button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+    </div>
+    <div class="col-md-4">
+      <form action="{{ url_for('bbs') }}" method="GET" role="form">
+        <div class="input-group">
+          <input type="text" class="form-control" name="q">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="submit">検索</button>
+          </span>
+        </div>
+      </form>
+      <hr />
+      <a href="{{ url_for('bbs_create_thread') }}" class="btn btn-primary">新しくスレッドを作る</a>
+    </div>
+  </div>
+
+
+</div>
+{% endblock %}

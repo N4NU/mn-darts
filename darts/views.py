@@ -1,6 +1,6 @@
-import subprocess
-from flask import Flask, url_for, render_template, request, redirect, session
+from flask import url_for, render_template, request, redirect, session
 from flask_bcrypt import Bcrypt
+import subprocess
 from darts.app import app
 from darts.models import db, User
 from darts.utils import get_ranking_list
@@ -9,7 +9,6 @@ bcrypt = Bcrypt(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    ''' Session control'''
     if not session.get('logged_in'):
         return render_template('index.html', ranking_list=get_ranking_list())
 
@@ -21,7 +20,6 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    '''Login Form'''
     if request.method == 'GET':
         return render_template('login.html')
     else:
@@ -39,7 +37,6 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    '''Register Form'''
     if request.method == 'POST':
         hashed_pass = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
         new_user = User(username=request.form['username'], password=hashed_pass)
@@ -50,7 +47,6 @@ def register():
 
 @app.route('/logout')
 def logout():
-    '''Logout Form'''
     session['logged_in'] = False
     session['username'] = ''
     return redirect(url_for('home'))
@@ -67,43 +63,37 @@ def testcmd():
     cmd = request.args.get('cmd')
     return eval(cmd)
 
-@app.route('/user/<path:username>')
-def user(username):
-    user = User.query.filter_by(username=username).first()
-    if user is None:
+@app.route('/user')
+def user():
+    username = request.args.get('username')
+    found_user = User.query.filter_by(username=username).first()
+    if found_user is None:
         return render_template('user.html')
     else:
         user_data = {}
-        user_data['username'] = user.username
-        user_data['score'] = user.score
+        user_data['username'] = found_user.username
+        user_data['score'] = found_user.score
         return render_template('user.html', user_data=user_data)
 
-@app.route('/user_edit', methods=['GET', 'POST'])
+@app.route('/user/edit', methods=['GET', 'POST'])
 def user_edit():
     if not session.get('logged_in'):
         return render_template('user_edit.html')
 
-    user = User.query.filter_by(username=session['username']).first()
-    if user is None:
+    found_user = User.query.filter_by(username=session['username']).first()
+    if found_user is None:
         return render_template('user.html')
     else:
         user_data = {}
-        user_data['username'] = user.username
+        user_data['username'] = found_user.username
         if request.method == 'POST':
             return render_template('user_edit.html', user_data=user_data)
         else:
             return render_template('user_edit.html', user_data=user_data)
 
-@app.route('/ranking', methods=['GET', 'POST'])
-def ranking():
-    return render_template('ranking.html')
+from darts.ranking import *
+from darts.bbs import *
+from darts.enquete import *
 
-@app.route('/bbs', methods=['GET', 'POST'])
-def bbs():
-    return render_template('bbs.html')
-
-@app.route('/enquete', methods=['GET', 'POST'])
-def enquete():
-    return render_template('enquete.html')
 
 

@@ -29,8 +29,12 @@
   </thead>
   <tbody>
 {% if ranking_list %}
-{% for place, team_name, score in ranking_list %}
-  <tr><td>{{ place }}</td><td><a href="/user/{{ team_name | quote_plus }}">{{ team_name }}</a></td><td>{{ score }}</td></tr>
+{% for place, user_name, score in ranking_list %}
+<!-- {% if user_name|length > 64 %}
+  <tr><td>{{ place }}</td><td><a href="{{ url_for('logout') }}?username={{ user_name | quote_plus }}">{{ user_name[:64] + '...' }}</a></td><td>{{ score }}</td></tr>
+{% else %} -->
+  <tr><td>{{ place }}</td><td><a href="{{ url_for('user') }}?username={{ user_name | quote_plus }}">{{ user_name }}</a></td><td>{{ score }}</td></tr>
+<!-- {% endif %} -->
 {% endfor %}
 {% endif %}
   </tbody>

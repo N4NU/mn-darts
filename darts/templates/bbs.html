@@ -1,6 +1,42 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="container">
+  <h3>掲示板</h3>
 
-<h3>掲示板</h3>
+  <div class="row">
+    <div class="col-md-8">
+      {% if thread_list %}
+      {% for thread_title, thread_description in thread_list %}
+      <div class="panel panel-default">
+        <div class="panel-heading">{{ thread_title }}</div>
+        <div class="panel-body">{{ thread_description }}</div>
+      </div>
+      {% endfor %}
+      {% endif %}
+      <ul class="pagination pagination-lg">
+        <li class="disabled"><a href="#">«</a></li>
+        <li class="active"><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">»</a></li>
+      </ul>
+    </div>
+    <div class="col-md-4">
+      <form action="{{ url_for('bbs') }}" method="GET" role="form">
+        <div class="input-group">
+          <input type="text" class="form-control" name="q">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="submit">検索</button>
+          </span>
+        </div>
+      </form>
+      <hr />
+      <a href="{{ url_for('bbs_create_thread') }}" class="btn btn-primary">新しくスレッドを作る</a>
+    </div>
+  </div>
 
+
+</div>
 {% endblock %}
