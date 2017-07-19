@@ -6,9 +6,9 @@
   <div class="row">
     <div class="col-md-8">
       {% if thread_list %}
-      {% for thread_title, thread_description in thread_list %}
+      {% for thread_id, thread_title, thread_description in thread_list %}
       <div class="panel panel-default">
-        <div class="panel-heading">{{ thread_title }}</div>
+        <div class="panel-heading"><a href="{{ url_for('bbs_view_thread', thread_id=thread_id) }}">{{ thread_title }}</a></div>
         <div class="panel-body">{{ thread_description }}</div>
       </div>
       {% endfor %}

@@ -26,17 +26,17 @@ class BBS_thread(db.Model):
         self.created_at = created_at
 
 class BBS_posts(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, primary_key=True)
     thread_id = db.Column(db.Integer, nullable=False)
     posted_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
-    user_name = db.Column(db.Unicode(20), nullable=False)
+    username = db.Column(db.Unicode(20), nullable=False)
     message = db.Column(db.UnicodeText, nullable=False)
     ip_addr = db.Column(db.String(16), nullable=False)
 
-    def __init__(self, thread_id, posted_at, user_name, message, ip_addr):
+    def __init__(self, thread_id, posted_at, username, message, ip_addr):
         self.thread_id = thread_id
         self.posted_at = posted_at
-        self.user_name = user_name
+        self.username = username
         self.message = message
         self.ip_addr = ip_addr
 
