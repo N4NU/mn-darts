@@ -32,8 +32,6 @@ def bbs():
         view_thread_list = thread_list[page_id * 10:(page_id + 1) * 10]
 
         num_page = int(max(0, len(thread_list) - 1) / num_threads_par_page) + 1
-        print(num_page)
-        print(len(thread_list))
 
         pagination = {}
         pagination['current_page'] = page_id
