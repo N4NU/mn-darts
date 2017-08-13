@@ -3,14 +3,14 @@ from flask_bcrypt import Bcrypt
 import subprocess
 from darts.app import app
 from darts.models import db, User
-from darts.utils import get_ranking_list
+import darts.utils 
 
 bcrypt = Bcrypt(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if not session.get('logged_in'):
-        return render_template('index.html', ranking_list=get_ranking_list())
+        return render_template('index.html', threads_list=darts.utils.get_threads_list(0, 10), ranking_list=darts.utils.get_ranking_list(0, 10))
 
     if request.method == 'POST':
         username = request.form['username']

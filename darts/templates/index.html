@@ -1,26 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
 
-<p>Ranking</p>
-
-<table id="ranking" class="table table-striped">
-  <thead>
-    <tr>
-      <td width="10px"><b>Place</b>
-      </td>
-      <td><b>Team</b>
-      </td>
-      <td><b>Score</b>
-      </td>
-    </tr>
-  </thead>
-  <tbody>
-{% if ranking_list %}
-{% for place, username, score in ranking_list %}
-  <tr><td>{{ place }}</td><td><a href="{{ url_for('user') }}?username={{ username | quote_plus }}">{{ username }}</a></td><td>{{ score }}</td></tr>
-{% endfor %}
-{% endif %}
-  </tbody>
-</table>
-
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <p>最新スレッド</p>
+      <table id="ranking" class="table table-striped col-md-6">
+        <thead>
+          <tr>
+            <td class="col-md-8"><b>タイトル</b></td>
+            <td class="col-md-4"><b>作成日時</b></td>
+          </tr>
+        </thead>
+        <tbody>
+      {% if threads_list %}
+      {% for thread_id, thread_title, created_at in threads_list %}
+        <tr><td><a href="{{ url_for('bbs_view_thread', thread_id=thread_id) }}">{{ thread_title }}</a></td><td>{{ created_at }}</td></tr>
+      {% endfor %}
+      {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-6">
+      <p>ランキング</p>
+      <table id="ranking" class="table table-striped">
+        <thead>
+          <tr>
+            <td width="10px"><b>Place</b>
+            </td>
+            <td><b>User</b>
+            </td>
+            <td><b>Score</b>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+      {% if ranking_list %}
+      {% for place, username, score in ranking_list %}
+        <tr><td>{{ place }}</td><td><a href="{{ url_for('user') }}?username={{ username | quote_plus }}">{{ username }}</a></td><td>{{ score }}</td></tr>
+      {% endfor %}
+      {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 {% endblock %}
