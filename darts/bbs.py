@@ -69,6 +69,9 @@ def bbs_create_thread():
         if thread_title == '':
             return redirect(url_for('bbs'))
 
+        if not session.get('logged_in'):
+            return redirect(url_for('bbs'))
+
         new_thread = BBS_thread(thread_title=thread_title, thread_description=thread_description, created_at=datetime.datetime.utcnow())
         db.session.add(new_thread)
         db.session.commit()
