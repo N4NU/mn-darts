@@ -9,13 +9,12 @@ bcrypt = Bcrypt(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    if not session.get('logged_in'):
-        return render_template('index.html', threads_list=darts.utils.get_threads_list(0, 10), ranking_list=darts.utils.get_ranking_list(0, 10))
+    return render_template('index.html', threads_list=darts.utils.get_threads_list(0, 10), ranking_list=darts.utils.get_ranking_list(0, 10))
 
-    if request.method == 'POST':
-        username = request.form['username']
-        return render_template('index.html', data=username)
-    return render_template('index.html')
+    # if request.method == 'POST':
+    #     username = request.form['username']
+    #     return render_template('index.html', data=username)
+    # return render_template('index.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
