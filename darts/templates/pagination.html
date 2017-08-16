@@ -1,0 +1,66 @@
+{% macro pagination_macro(link, search_word='') %}
+{% if pagination %}
+  <ul class="pagination">
+    {% if pagination.current_page == 0 %}
+      <li class="disabled"><a href="#">Prev</a></li>
+    {% else %}
+      <li><a href="{{ url_for(link, p=pagination.current_page - 1, q=search_word) }}">Prev</a></li>
+    {% endif %}
+
+    {% if pagination.current_page == 0 %}
+      <li class="active"><a href="{{ url_for(link, p=0, q=search_word) }}">1</a></li>
+      {% if pagination.num_page < 5 %}
+        {% for idx in range(1, pagination.num_page) %}
+          <li><a href="{{ url_for(link, p=idx, q=search_word) }}">{{ idx + 1 }}</a></li>
+        {% endfor %}
+        {% for idx in range(pagination.num_page, 5) %}
+          <li class="disabled"><a href="#">{{ idx + 1 }}</a></li>
+        {% endfor %}
+      {% else %}
+        {% for idx in range(1, 5) %}
+          <li><a href="{{ url_for(link, p=idx, q=search_word) }}">{{ idx + 1 }}</a></li>
+        {% endfor %}
+      {% endif %}
+    {% elif pagination.current_page == 1 %}
+      <li><a href="{{ url_for(link, p=0, q=search_word) }}">1</a></li>
+      <li class="active"><a href="{{ url_for(link, p=1, q=search_word) }}">2</a></li>
+      {% if pagination.num_page < 5 %}
+        {% for idx in range(2, pagination.num_page) %}
+          <li><a href="{{ url_for(link, p=idx, q=search_word) }}">{{ idx + 1 }}</a></li>
+        {% endfor %}
+        {% for idx in range(pagination.num_page, 5) %}
+          <li class="disabled"><a href="#">{{ idx + 1 }}</a></li>
+        {% endfor %}
+      {% else %}
+        {% for idx in range(2, 5) %}
+          <li><a href="{{ url_for(link, p=idx, q=search_word) }}">{{ idx + 1 }}</a></li>
+        {% endfor %}
+      {% endif %}
+    {% elif pagination.current_page < pagination.num_page - 2 %}
+      <li><a href="{{ url_for(link, p=pagination.current_page - 2, q=search_word) }}">{{ pagination.current_page - 1 }}</a></li>
+      <li><a href="{{ url_for(link, p=pagination.current_page - 1) }}">{{ pagination.current_page }}</a></li>
+      <li class="active"><a href="{{ url_for(link, p=pagination.current_page, q=search_word) }}">{{ pagination.current_page + 1 }}</a></li>
+      <li><a href="{{ url_for(link, p=pagination.current_page + 1, q=search_word) }}">{{ pagination.current_page + 2 }}</a></li>
+      <li><a href="{{ url_for(link, p=pagination.current_page + 2, q=search_word) }}">{{ pagination.current_page + 3 }}</a></li>
+    {% elif pagination.num_page - 2 == pagination.current_page %}
+      <li><a href="{{ url_for(link, p=pagination.current_page - 3, q=search_word) }}">{{ pagination.current_page - 2 }}</a></li>
+      <li><a href="{{ url_for(link, p=pagination.current_page - 2, q=search_word) }}">{{ pagination.current_page - 1 }}</a></li>
+      <li><a href="{{ url_for(link, p=pagination.current_page - 1, q=search_word) }}">{{ pagination.current_page }}</a></li>
+      <li class="active"><a href="{{ url_for(link, p=pagination.current_page, q=search_word) }}">{{ pagination.current_page + 1 }}</a></li>
+      <li><a href="{{ url_for(link, p=pagination.current_page + 1, q=search_word) }}">{{ pagination.current_page + 2 }}</a></li>
+    {% elif pagination.num_page - 1 == pagination.current_page %}
+      <li><a href="{{ url_for(link, p=pagination.current_page - 4, q=search_word) }}">{{ pagination.current_page - 3 }}</a></li>
+      <li><a href="{{ url_for(link, p=pagination.current_page - 3, q=search_word) }}">{{ pagination.current_page - 2 }}</a></li>
+      <li><a href="{{ url_for(link, p=pagination.current_page - 2, q=search_word) }}">{{ pagination.current_page - 1}}</a></li>
+      <li><a href="{{ url_for(link, p=pagination.current_page - 1, q=search_word) }}">{{ pagination.current_page }}</a></li>
+      <li class="active"><a href="{{ url_for(link, p=pagination.current_page, q=search_word) }}">{{ pagination.current_page + 1 }}</a></li>
+    {% endif %}
+
+    {% if pagination.num_page - 1 == pagination.current_page %}
+      <li class="disabled"><a href="#">Next</a></li>
+    {% else %}
+      <li><a href="{{ url_for(link, p=pagination.current_page + 1, q=search_word) }}">Next</a></li>
+    {% endif %}
+  </ul>
+{% endif %}
+{% endmacro %}

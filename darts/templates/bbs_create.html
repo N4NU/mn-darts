@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
+  <h3>掲示板</h3>
   <div class="row">
     <div class="col-md-8">
       <div class="well bs-component">
@@ -43,7 +44,5 @@
       <a href="{{ url_for('bbs_create_thread') }}" class="btn btn-primary">新しくスレッドを作る</a>
     </div>
   </div>
-
-
 </div>
 {% endblock %}

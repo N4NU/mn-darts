@@ -1,6 +1,79 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h3>ランキング</h3>
+<div class="container">
+  <h3>ランキング一覧</h3>
+  <div class="row">
+    <div class="col-md-4 col-xs-12">
+      <a style="font-size:15pt;font-weight:bold;" href="{{ url_for('ranking_countup') }}">カウントアップ</a>
+      <table id="ranking" class="table table-striped">
+        <thead>
+          <tr>
+            <td class="col-xs-1"><b>Place</b></td>
+            <td class="col-xs-5"><b>User</b></td>
+            <td class="col-xs-5"><b>Score</b></td>
+          </tr>
+        </thead>
+        <tbody>
+      {% if ranking_countup_list %}
+      {% for place, username, score in ranking_countup_list %}
+        <tr>
+          <td class="col-xs-1">{{ place }}</td>
+          <td class="col-xs-5"><a href="{{ url_for('user') }}?username={{ username | quote_plus }}">{{ username }}</a></td>
+          <td class="col-xs-5">{{ score }}</td>
+        </tr>
+      {% endfor %}
+      {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-4 col-xs-12">
+      <a style="font-size:15pt;font-weight:bold;" href="{{ url_for('ranking_501') }}">501</a>
+      <table id="ranking" class="table table-striped">
+        <thead>
+          <tr>
+            <td class="col-xs-1"><b>Place</b></td>
+            <td class="col-xs-5"><b>User</b></td>
+            <td class="col-xs-5"><b>Score</b></td>
+          </tr>
+        </thead>
+        <tbody>
+      {% if ranking_501_list %}
+      {% for place, username, score in ranking_501_list %}
+        <tr>
+          <td class="col-xs-1">{{ place }}</td>
+          <td class="col-xs-5"><a href="{{ url_for('user') }}?username={{ username | quote_plus }}">{{ username }}</a></td>
+          <td class="col-xs-5">{{ score }}</td>
+        </tr>
+      {% endfor %}
+      {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-4 col-xs-12">
+      <a style="font-size:15pt;font-weight:bold;" href="{{ url_for('ranking_cricket') }}">クリケット</a>
+      <table id="ranking" class="table table-striped">
+        <thead>
+          <tr>
+            <td class="col-xs-1"><b>Place</b></td>
+            <td class="col-xs-5"><b>User</b></td>
+            <td class="col-xs-5"><b>Score</b></td>
+          </tr>
+        </thead>
+        <tbody>
+      {% if ranking_cricket_list %}
+      {% for place, username, score in ranking_cricket_list %}
+        <tr>
+          <td class="col-xs-1">{{ place }}</td>
+          <td class="col-xs-5"><a href="{{ url_for('user') }}?username={{ username | quote_plus }}">{{ username }}</a></td>
+          <td class="col-xs-5">{{ score }}</td>
+        </tr>
+      {% endfor %}
+      {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

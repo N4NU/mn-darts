@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% from "pagination.html" import pagination_macro with context %}
+{% block content %}
+
+<div class="container">
+  <h3>ご意見・ご要望一覧</h3>
+
+  <div class="row">
+    <div class="col-md-8">
+      {% if enquete_list %}
+      {% set service_dic = {'ranking':'ランキング', 'bbs':'掲示板', 'others':'その他'} %}
+      {% for i, service, message in enquete_list %}
+      <div class="panel panel-default">
+        <div class="panel-heading">{{ i + 1 }}<p class="pull-right">{{ service_dic[service] }}</p></div>
+        <div class="panel-body">{{ message }}</div>
+      </div>
+      {% endfor %}
+      {% endif %}
+
+      {{ pagination_macro('admin', search_word) }}
+
+    </div>
+    <div class="col-md-4">
+      <form action="{{ url_for('admin') }}" method="GET" role="form">
+        <div class="input-group">
+          <input type="text" class="form-control" name="q">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="submit">検索</button>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

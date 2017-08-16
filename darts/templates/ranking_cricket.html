@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{%from "pagination.html" import pagination_macro with context%}
+{% block content %}
+
+<div class="container">
+  <h3>クリケット</h3>
+
+  <div class="row">
+    <div class="col-md-8">
+
+      <table id="ranking" class="table table-striped">
+        <thead>
+          <tr>
+            <td class="col-xs-1"><b>Place</b></td>
+            <td class="col-xs-5"><b>User</b></td>
+            <td class="col-xs-5"><b>Score</b></td>
+          </tr>
+        </thead>
+        <tbody>
+      {% if ranking_cricket_list %}
+      {% for place, username, score in ranking_cricket_list %}
+        <tr>
+          <td class="col-xs-1">{{ place }}</td>
+          <td class="col-xs-5"><a href="{{ url_for('user') }}?username={{ username | quote_plus }}">{{ username }}</a></td>
+          <td class="col-xs-5">{{ score }}</td>
+        </tr>
+      {% endfor %}
+      {% endif %}
+        </tbody>
+      </table>
+
+      {{ pagination_macro('ranking_cricket') }}
+      
+    </div>
+    <div class="col-md-4">
+      <form action="{{ url_for('ranking_cricket') }}" method="GET" role="form">
+        <div class="input-group">
+          <input type="text" class="form-control" name="q">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="submit">ユーザー名検索</button>
+          </span>
+        </div>
+      </form>
+      <hr />
+      <a href="{{ url_for('ranking_cricket_post') }}" class="btn btn-primary">結果を投稿する</a>
+    </div>
+
+{% endblock %}

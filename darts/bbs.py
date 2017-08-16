@@ -1,6 +1,7 @@
 from flask import url_for, render_template, request, redirect, session
 from darts.app import app
 from darts.models import db, BBS_thread, BBS_posts
+import darts.utils
 import string
 from sqlalchemy import or_
 import datetime
@@ -21,23 +22,21 @@ def bbs():
         if search_word is None:
             search_word = ''
 
-        search_words = search_word.split()
-        # found_threads = BBS_thread.query.order_by(BBS_thread.created_at.desc()).filter(or_(BBS_thread.thread_title.in_(search_words), BBS_thread.thread_description.in_(search_words))).slice(page_id * 10, (page_id + 1) * 10).all()
-        found_threads = BBS_thread.query.order_by(BBS_thread.created_at.desc()).all()
+        found_threads = BBS_thread.query.order_by(BBS_thread.created_at.desc()).filter(or_(BBS_thread.thread_title.contains(search_word), BBS_thread.thread_description.contains(search_word))).slice(page_id * 10, (page_id + 1) * 10).all()
+
+        num_records = darts.utils.get_num_record_threads(search_word)
 
         thread_list = []
         for d in found_threads:
             thread_list.append((d.thread_id, d.thread_title, d.thread_description))
 
-        view_thread_list = thread_list[page_id * 10:(page_id + 1) * 10]
-
-        num_page = int(max(0, len(thread_list) - 1) / num_threads_par_page) + 1
+        num_page = int(max(0, num_records - 1) / num_threads_par_page) + 1
 
         pagination = {}
         pagination['current_page'] = page_id
         pagination['num_page'] = num_page
 
-        return render_template('bbs.html', thread_list=view_thread_list, pagination=pagination)
+        return render_template('bbs.html', thread_list=thread_list, pagination=pagination, search_word=search_word)
     else:
         return render_template('bbs.html')
 
@@ -48,7 +47,7 @@ def bbs_post():
     if thread_id is None:
         return redirect(url_for('bbs'))
 
-    if not session.get('logged_in') or message is None:
+    if not session.get('logged_in') or message == '':
         return redirect(url_for('bbs_view_thread', thread_id=thread_id))
 
     new_post = BBS_posts(thread_id=thread_id, posted_at=datetime.datetime.utcnow(), username=session['username'], message=message, ip_addr=request.environ['REMOTE_ADDR'])
@@ -72,7 +71,7 @@ def bbs_create_thread():
         if not session.get('logged_in'):
             return redirect(url_for('bbs'))
 
-        new_thread = BBS_thread(thread_title=thread_title, thread_description=thread_description, created_at=datetime.datetime.utcnow())
+        new_thread = BBS_thread(thread_title=thread_title, thread_description=thread_description, created_at=datetime.datetime.utcnow(), username=session['username'], ip_addr=request.environ['REMOTE_ADDR'])
         db.session.add(new_thread)
         db.session.commit()
 
@@ -81,6 +80,7 @@ def bbs_create_thread():
 @app.route('/bbs/thread/<int:thread_id>', methods=['GET', 'POST'])
 def bbs_view_thread(thread_id):
     if request.method == 'GET':
+        num_threads_par_page = 10
 
         found_thread = BBS_thread.query.filter_by(thread_id=thread_id).first()
         if found_thread is None:
@@ -92,10 +92,23 @@ def bbs_view_thread(thread_id):
         else:
             page_id = int(page_id)
 
-        found_posts = BBS_posts.query.filter_by(thread_id=thread_id).order_by(BBS_posts.posted_at.desc()).slice(page_id * 10, (page_id + 1) * 10).all()
+        search_word = request.args.get('q')
+        if search_word is None:
+            search_word = ''
+
+        found_posts = BBS_posts.query.filter(BBS_posts.message.contains(search_word)).filter_by(thread_id=thread_id).order_by(BBS_posts.posted_at.desc()).slice(page_id * num_threads_par_page, (page_id + 1) * num_threads_par_page).all()
+        num_posts = db.session.query(BBS_posts).filter(BBS_posts.message.contains(search_word)).filter_by(thread_id=thread_id).count()
+
         post_list = []
         for d in found_posts:
             post_list.append((d.message, d.username, (d.posted_at + datetime.timedelta(hours=9)).strftime('%Y/%m/%d %H:%M:%S')))
-        return render_template('bbs_thread.html', post_list=post_list, thread_data=found_thread)
+
+        num_page = int(max(0, num_posts - 1) / num_threads_par_page) + 1
+
+        pagination = {}
+        pagination['current_page'] = page_id
+        pagination['num_page'] = num_page
+
+        return render_template('bbs_thread.html', post_list=post_list, thread_data=found_thread, pagination=pagination, search_word=search_word)
     else:
         return render_template('bbs_thread.html')

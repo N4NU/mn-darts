@@ -1,6 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h3>アンケート</h3>
+<div class="container">
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8">
+      <div class="well bs-component">
+          <form action="{{ url_for('enquete') }}" method="POST" class="form-horizontal">
+            <fieldset>
+              <legend>ご意見・ご要望フォーム</legend>
+              <div class="form-group">
+                <label class="col-lg-2 control-label">お問合わせのサービス</label>
+                <div class="col-lg-10">
+                  <div class="radio-inline">
+                    <label>
+                      <input type="radio" name="service" id="optionsRadios1" value="ranking" checked="">
+                      ランキング
+                    </label>
+                  </div>
+                  <div class="radio-inline">
+                    <label>
+                      <input type="radio" name="service" id="optionsRadios2" value="bbs">
+                      掲示板
+                    </label>
+                  </div>
+                  <div class="radio-inline">
+                    <label>
+                      <input type="radio" name="service" id="optionsRadios3" value="others">
+                      その他
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="comment" class="col-lg-2 control-label">ご意見</label>
+                <div class="col-lg-10">
+                  <textarea class="form-control" rows="8" id="comment" name="comment"></textarea>
+                  <span class="help-block">ご意見やご要望を入力してください。</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                  <button type="reset" class="btn btn-default">リセット</button>
+                  <button type="submit" class="btn btn-primary">送信</button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
