@@ -12,10 +12,10 @@ def enquete():
         comment = request.form.get('comment')
 
         if comment == None or comment == '' or  service == None or service == '':
-            return redirect(url_for('enquete'))
+            return render_template('enquete.html')
 
         new_thread = Enquete_posts(posted_at=datetime.datetime.utcnow(), service=service, message=comment, ip_addr=request.environ['REMOTE_ADDR'])
         db.session.add(new_thread)
         db.session.commit()
 
-        return redirect(url_for('enquete'))
+        return render_template('enquete.html', submit_succeeded=True)

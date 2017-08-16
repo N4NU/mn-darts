@@ -4,6 +4,13 @@
 <div class="container">
   <div class="row">
     <div class="col-md-offset-2 col-md-8">
+      {% if submit_succeeded %}
+      <div class="bs-component">
+        <div class="alert alert-dismissible alert-success">
+          <strong>正常に送信できました</strong>
+        </div>
+      </div>
+      {% endif %}
       <div class="well bs-component">
           <form action="{{ url_for('enquete') }}" method="POST" class="form-horizontal">
             <fieldset>
