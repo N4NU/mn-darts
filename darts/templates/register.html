@@ -9,6 +9,22 @@
 <div class="container">
   <div class="row">
     <div class="col-md-offset-2 col-md-8">
+      {% if missed_username %}
+      <div class="bs-component">
+        <div class="alert alert-dismissible alert-danger">
+          ユーザー名が未入力です
+        </div>
+      </div>
+      {% endif %}
+
+      {% if already_exists_user %}
+      <div class="bs-component">
+        <div class="alert alert-dismissible alert-danger">
+          既に存在しているユーザー名です
+        </div>
+      </div>
+      {% endif %}
+
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title"><strong>ユーザー登録</strong></h3>

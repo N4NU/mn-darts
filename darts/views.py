@@ -31,8 +31,19 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        if username == '':
+            return render_template('register.html', missed_username=True)
+
+        user = User.query.filter_by(username=username).first()
+        if not user is None:
+            return render_template('register.html', already_exists_user=True)
+
         hashed_pass = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
-        new_user = User(username=request.form['username'], password=hashed_pass)
+        new_user = User(username=username, password=hashed_pass)
+        
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('login'))
