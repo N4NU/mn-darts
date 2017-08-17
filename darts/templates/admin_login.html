@@ -7,6 +7,14 @@
 <div class="container">
   <div class="row">
     <div class="col-md-offset-2 col-md-8">
+      {% if login_failed %}
+      <div class="bs-component">
+        <div class="alert alert-dismissible alert-danger">
+          <strong>ログインに失敗しました</strong><br>
+          ユーザー名もしくはパスワードが異なります
+        </div>
+      </div>
+      {% endif %}
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title"><strong>Admin Sign In </strong></h3>

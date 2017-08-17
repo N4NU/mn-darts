@@ -54,4 +54,4 @@ def admin_login():
             session['is_admin'] = True
             return redirect(url_for('admin'))
         else:
-            return 'Dont Login'
+            return render_template('admin_login.html', login_failed=True)
